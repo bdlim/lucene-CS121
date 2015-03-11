@@ -179,11 +179,19 @@ public class IndexFiles {
 					// Make Book object which parses the file and finds Author and Title of the text file. 
 					Book book = new Book();
 					book.parse(fis);
-
-					doc.add(new TextField("author", book.getAuthor(), Field.Store.YES));
-					doc.add(new TextField("title", book.getTitle(), Field.Store.YES));
-					doc.add(new TextField("release date", book.getReleaseDate(), Field.Store.YES));
-					doc.add(new TextField("language", book.getLanguage(), Field.Store.YES));
+					
+					Field authorField = new TextField("author", book.getAuthor(), Field.Store.YES);
+					Field titleField = new TextField("title", book.getTitle(), Field.Store.YES);
+					Field releaseField = new TextField("release date", book.getReleaseDate(), Field.Store.YES);
+					Field languageField = new TextField("language", book.getLanguage(), Field.Store.YES);
+					
+					authorField.setBoost(3.0f);
+					titleField.setBoost(3.0f);
+					
+					doc.add(authorField);
+					doc.add(titleField);
+					doc.add(releaseField);
+					doc.add(languageField);
 
 					// Add the path of the file as a field named "path".  Use a
 					// field that is indexed (i.e. searchable), but don't tokenize 

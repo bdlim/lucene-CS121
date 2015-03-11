@@ -30,6 +30,7 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
@@ -54,6 +55,7 @@ public class SearchFiles {
 
     String index = "index";
     String field = "contents";
+    String[] fields = {"contents", "author"};
     String queries = null;
     int repeat = 0;
     boolean raw = false;
@@ -100,7 +102,8 @@ public class SearchFiles {
       in = new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8));
     }
     // :Post-Release-Update-Version.LUCENE_XY:
-    QueryParser parser = new QueryParser(Version.LUCENE_4_10_0, field, analyzer);
+    MultiFieldQueryParser parser = new MultiFieldQueryParser(Version.LUCENE_4_10_0, fields, analyzer);
+    //QueryParser parser = new QueryParser(Version.LUCENE_4_10_0, field, analyzer);
     while (true) {
       if (queries == null && queryString == null) {                        // prompt the user
         System.out.println("Enter query: ");
